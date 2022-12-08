@@ -1,0 +1,32 @@
+version: 2
+
+models:
+  - name: credit_card_usage_per_country
+    columns:
+      - name: credit_card_type
+        tests:
+          - not_null
+
+  - name: stg_payments
+    columns:
+      - name: user_id
+        tests:
+          - unique
+          - not_null
+
+  - name: stg_user
+    columns:
+      - name: id
+        tests:
+          - unique
+          - not_null
+      - name: gender
+        tests:
+          - accepted_values:
+              values: ['Bigender', 'Female', 'Agender', 'Polygender', 'Male', 'Non-binary', 'Genderqueer', 'Genderfluid']
+      - name: user_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_payments')
+              field: user_id
